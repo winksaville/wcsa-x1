@@ -1,0 +1,50 @@
+{
+  "name": "wcsa-x1",
+  "author": "Wink Saville",
+  "version": "0.1.0",
+  "private": false,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winksaville/wcsa-x1"
+  },
+  "scripts": {
+    "_build:common": "tsc -p src/common/tsconfig.json",
+    "_build:common.spec": "tsc -p src/common/tsconfig.spec.json",
+    "_build:server": "tsc -p src/server/tsconfig.json",
+    "_build:server.spec": "tsc -p src/server/tsconfig.spec.json",
+    "_build:client": "tsc -p src/client/tsconfig.json && webpack dist/client/client.js dist/client/bundle.js",
+    "_build:client.spec": "tsc -p src/client/tsconfig.spec.json",
+    "_build": "yarn _build:common && yarn _build:server && yarn _build:client",
+    "_build:spec": "yarn _build:common.spec && yarn _build:server.spec && yarn _build:client.spec",
+    "_test:common": "DEBUG=common.spec,nop.spec alsatian 'build/common/**/*.spec.js'",
+    "_test:server": "DEBUG=server.spec alsatian 'build/server/**/*.spec.js'",
+    "_test:client": "DEBUG=client.spec alsatian 'build/client/**/*.spec.js'",
+    "_test:lint": "tslint -c tslint.json 'src/**/*.ts' --exclude 'src/**/*.d.ts'",
+    "_test:full": "yarn _test:common && yarn _test:server && yarn _test:client && yarn _test:lint",
+    "_test:full.with.coverage": "nyc --reporter=lcov --reporter=html yarn _test:full && nyc report",
+    "pretest": "yarn _build && yarn _build:spec",
+    "test": "yarn _test:full.with.coverage",
+    "test:travis": "yarn test",
+    "predev": "tsc -p utils/tsconfig.json",
+    "dev": "node build/start-dev.js"
+  },
+  "devDependencies": {
+    "@types/debug": "^0.0.29",
+    "@types/mithril": "github:spacejack/mithril.d.ts",
+    "@types/node": "^7.0.8",
+    "@types/selenium-webdriver": "^2.53.40",
+    "alsatian": "^1.2.1",
+    "nodemon": "^1.11.0",
+    "nyc": "^10.1.2",
+    "tslint": "^4.5.1",
+    "typescript": "^2.2.1",
+    "webpack": "^2.2.1"
+  },
+  "dependencies": {
+    "debug": "^2.6.1",
+    "mithril": "^1.0.1",
+    "node": "^0.0.0",
+    "selenium-webdriver": "^3.1.0"
+  }
+}
