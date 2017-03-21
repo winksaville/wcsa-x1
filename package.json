@@ -18,8 +18,8 @@
     "_build": "yarn _build:common && yarn _build:server && yarn _build:client",
     "_build:spec": "yarn _build:common.spec && yarn _build:server.spec && yarn _build:client.spec",
     "_test:common": "DEBUG=common.spec,nop.spec alsatian 'build/common/**/*.spec.js'",
-    "_test:server": "DEBUG=server.spec alsatian 'build/server/**/*.spec.js'",
-    "_test:client": "DEBUG=client.spec alsatian 'build/client/**/*.spec.js'",
+    "_test:server": "DEBUG=server.spec,server alsatian 'build/server/**/*.spec.js'",
+    "_test:client": "DEBUG=client.spec,client,server alsatian 'build/client/**/*.spec.js'",
     "_test:lint": "tslint -c tslint.json 'src/**/*.ts' --exclude 'src/**/*.d.ts'",
     "_test:full": "yarn _test:common && yarn _test:server && yarn _test:client && yarn _test:lint",
     "_test:full.with.coverage": "nyc --reporter=lcov --reporter=html yarn _test:full && nyc report",
@@ -27,7 +27,8 @@
     "test": "yarn _test:full.with.coverage",
     "test:travis": "yarn test",
     "predev": "tsc -p utils/tsconfig.json",
-    "dev": "node build/start-dev.js"
+    "dev": "node build/start-dev.js",
+    "distclean": "rm -rf build/ node_modules/ coverage/ .nyc_output/ *.log"
   },
   "devDependencies": {
     "@types/debug": "^0.0.29",
@@ -46,5 +47,10 @@
     "mithril": "^1.0.1",
     "node": "^0.0.0",
     "selenium-webdriver": "^3.1.0"
+  },
+  "nyc": {
+    "include": [
+      "dist"
+    ]
   }
 }

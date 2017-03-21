@@ -1,4 +1,5 @@
 import * as child from "child_process";
+import { startServer } from "../common/spec.lib";
 
 import {
   AsyncSetupFixture,
@@ -18,6 +19,8 @@ import * as debugModule from "debug";
 
 const debug = debugModule("client.spec");
 
+const PORT = 3000;
+
 @TestFixture("Client tests")
 export class ClientTests {
   private driver: WebDriver;
@@ -33,26 +36,11 @@ export class ClientTests {
         .forBrowser(this.browserName)
         .build();
 
-    // Start the server
-    this.server = await child.spawn("node", [ "./dist/server/server.js" ]);
-    // this.server = await child.spawn("node", [ "./dist/server/server.js" ], {
-    //   env: {
-    //     DEBUG: "server"
-    //   },
-    //   shell: true
-    // });
-    this.server.stdout.on("data", (data) => {
-                 debug(`server.stdout: ${data}`);
-    });
-    this.server.stderr.on("data", (data) => {
-                 debug(`server.stdout: ${data}`);
-    });
-    this.server.on("close", (code) => {
-                 debug(`server: exited with ${code}`);
-    });
+    // Start server
+    this.server = await startServer(PORT, 5000, "./dist/server/server.js");
 
     // Get the home page
-    await this.driver.get("http:localhost:3000/");
+    await this.driver.get(`http:localhost:${PORT}/`);
 
     debug("setupFixture:-");
   }

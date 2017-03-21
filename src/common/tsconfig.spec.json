@@ -1,9 +1,12 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "target": "es6",
     "outDir": "../../build/common"
   },
   "files": [
-    "nop.spec.ts"
+    "nop.spec.ts",
+    "delay.spec.ts",
+    "spec.lib.ts"
   ]
 }

@@ -11,8 +11,6 @@ var httpServer = http.createServer(function (req, res) {
     debug("req.url=%s res=%s", req.url, res);
     switch (req.url) {
         case "/": {
-            // Use a routine from common
-            nop();
             // Write the header
             res.writeHead(200, {
                 "charset": "UTF-8",
@@ -20,6 +18,17 @@ var httpServer = http.createServer(function (req, res) {
             });
             // Send index.html as the content
             fs.createReadStream("./public/index.html").pipe(res);
+            break;
+        }
+        case "/nop": {
+            nop();
+            // Return 200 OK
+            res.writeHead(200, {
+                "charset": "UTF-8",
+                "content-type": "text/html",
+            });
+            // And the content is the url
+            res.end("OK req.url=" + req.url);
             break;
         }
         case "/build/bundle.js": {
@@ -33,7 +42,7 @@ var httpServer = http.createServer(function (req, res) {
             break;
         }
         default: {
-            debug("default: req.url=" + req.url);
+            debug("default: err 404 req.url=" + req.url);
             // Not found send a 404 header
             res.writeHead(404, {
                 "charset": "UTF-8",
@@ -48,5 +57,7 @@ var httpServer = http.createServer(function (req, res) {
 // Start it listening on the desired port
 httpServer.listen(PORT, function () {
     debug("Listening on: http://localhost:%s", PORT);
+    // Output to stdout a message that we're running
+    process.stdout.write("running PORT=" + PORT);
 });
 //# sourceMappingURL=server.js.map

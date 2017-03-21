@@ -1,51 +1,64 @@
 import * as child from "child_process";
+import { httpGet, startServer } from "../common/spec.lib";
 
 import {
+  AsyncSetupFixture,
+  AsyncTeardownFixture,
+  AsyncTest,
   Expect,
-  SetupFixture,
-  TeardownFixture,
-  TestCase,
   TestFixture,
 } from "alsatian";
 
 import * as debugModule from "debug";
-
 const debug = debugModule("server.spec");
+
+const PORT = 3000;
 
 @TestFixture("Server tests")
 export class ServerTests {
-  private server: child.ChildProcess;
+  public server: child.ChildProcess;
 
-  @SetupFixture
-  public setupFixture() {
+  @AsyncSetupFixture
+  public async setupFixture() {
+
     debug("setupFixture:+");
 
-    // Start the server
-    this.server = child.spawn("node", [ "./dist/server/server.js" ], {
-      env: {
-        DEBUG: "server"
-      },
-      shell: true
-    });
+    // Start server
+    this.server = await startServer(PORT, 5000, "./dist/server/server.js");
+
+    // Get the root page
+    debug("setupFixture: call httpGet '/'");
+    await httpGet("localhost", PORT, "/")
+                .then((statusCode) => debug(`httpGet: '/' statusCode=${statusCode}`))
+                .catch((err) => debug(`httpGet: '/' ERR=${err}`));
 
     debug("setupFixture:-");
   }
 
-  @TeardownFixture
-  public teardownFixture() {
+  @AsyncTeardownFixture
+  public async teardownFixture() {
     debug("teardownFixture:+");
 
-    this.server.kill();
+    await this.server.kill();
 
     debug("teardownFixture:-");
   }
 
-  @TestCase(0, 1)
-  public testNothing(param1: number, param2: number) {
-    debug("testNothing:+");
+  @AsyncTest()
+  public async testNop() {
+    debug("testNop:+");
 
-    Expect(param1 <= param2).toBe(true);
+    let retValue = await httpGet("localhost", PORT, "/nop")
+      .then((statusCode) => {
+        debug(`httpGet: '/nop' ${statusCode}`);
+        return statusCode;
+      })
+      .catch((err) => {
+        debug(`httpGet: '/nop' ERR=${err}`);
+        return -1;
+      });
+    Expect((retValue >= 200) && (retValue <= 299)).toBeTruthy();
 
-    debug("testNothing:-");
+    debug("testNop:-");
   }
 }
