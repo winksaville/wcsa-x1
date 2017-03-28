@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@types/csprng@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@types/csprng/-/csprng-0.1.0.tgz#da14d59c7f7247570ab1cd5bee3ac61150d97667"
+
 "@types/debug@^0.0.29":
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-0.0.29.tgz#a1e514adfbd92f03a224ba54d693111dbf1f3754"
@@ -643,6 +647,12 @@ crypto-browserify@^3.11.0:
 crypto-random-string@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
+
+csprng@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/csprng/-/csprng-0.1.2.tgz#4bc68f12fa368d252a59841cbaca974b18ab45e2"
+  dependencies:
+    sequin "*"
 
 dashdash@^1.12.0:
   version "1.14.1"
@@ -2273,6 +2283,10 @@ semver-diff@^2.0.0:
 "semver@2 || 3 || 4 || 5", semver@^5.0.3, semver@^5.1.0, semver@^5.3.0, semver@~5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
+
+sequin@*:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/sequin/-/sequin-0.1.0.tgz#17c5566d9d555413aa12fc8bc96ed309c80e0aad"
 
 set-blocking@^2.0.0, set-blocking@~2.0.0:
   version "2.0.0"

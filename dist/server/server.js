@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs = require("fs");
-var http = require("http");
-var nop = require("../../dist/common/nop");
-var debugModule = require("debug");
-var debug = debugModule("server");
-var PORT = 3000;
+const fs = require("fs");
+const http = require("http");
+const nop = require("../../dist/common/nop");
+const debugModule = require("debug");
+const debug = debugModule("server");
+const PORT = 3000;
 // Create a server and the handler for a few requests
-var httpServer = http.createServer(function (req, res) {
+const httpServer = http.createServer((req, res) => {
     debug("req.url=%s res=%s", req.url, res);
     switch (req.url) {
         case "/": {
@@ -55,9 +55,9 @@ var httpServer = http.createServer(function (req, res) {
     }
 });
 // Start it listening on the desired port
-httpServer.listen(PORT, function () {
+httpServer.listen(PORT, () => {
     debug("Listening on: http://localhost:%s", PORT);
     // Output to stdout a message that we're running
-    process.stdout.write("running PORT=" + PORT);
+    process.stdout.write(`running PORT=${PORT}`);
 });
 //# sourceMappingURL=server.js.map

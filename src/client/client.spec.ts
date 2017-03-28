@@ -61,13 +61,31 @@ export class ClientTests {
 
     try {
       let button = await this.driver.findElement(By.id("invokeNop"));
-      button.click();
+      await button.click();
     } catch (e) {
       debug(`testWdNop caught e=${e}`);
       Expect(false).toBe(true); // Always fail.
     }
-    // Expect(false).toBe(true); // Always fail.
 
     debug("testWdNop:-");
+  }
+
+  @AsyncTest("wd: rand output")
+  public async testRandOutput() {
+    debug("testRandOutput:+");
+
+    try {
+      let button = await this.driver.findElement(By.id("randButton"));
+      await button.click();
+      let randOutput = await this.driver.findElement(By.id("rand_output"))
+        .getAttribute("value");
+      debug(`rand_output=${randOutput}`);
+      Expect(randOutput).not.toBeEmpty();
+    } catch (e) {
+      debug(`testRandOutput caught e=${e}`);
+      Expect(false).toBe(true); // Always fail.
+    }
+
+    debug("testRandOutput:-");
   }
 }

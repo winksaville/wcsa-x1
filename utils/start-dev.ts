@@ -13,15 +13,19 @@ process.on('SIGINT', () => {
   process.exit(1);
 });
 
-function startServer() {
+function startServer(debugFlag: boolean) {
+  let params: Array<string> = [];
+  if (debugFlag) {
+    params = ['debug --inspect'];
+  }
+  debug(JSON.stringify(params));
+  params = params.concat(['--watch ./dist', './dist/server/server.js']);
+  debug(JSON.stringify(params));
   let index = children.length;
-  children.push(child.spawn('./node_modules/.bin/nodemon', [
-                              '--watch ./dist',
-                              './dist/server/server.js'
-                            ], {
-                              env: { DEBUG: 'server' },
-                              shell: true
-                            }));
+  children.push(child.spawn('./node_modules/.bin/nodemon', params, {
+    env: { DEBUG: 'server' },
+    shell: true
+  }));
   children[index].stdout.on('data', (data) => {
     process.stdout.write(`${index} out server: ${data}`);
   });
@@ -64,9 +68,16 @@ function startWebPack() {
   });
 }
 
+let debugFlag: boolean;
+try {
+  debugFlag = process.argv[2] == 'debug';
+  debug(`debugFlag=${debugFlag}`);
+} catch (err) {
+  debugFlag = false;
+  debug(`debugFlag=${debugFlag} err=${err}`);
+}
 
-
-startServer();
+startServer(debugFlag);
 startTsc('./src/common/tsconfig.json', 'common,nop');
 startTsc('./src/server/tsconfig.json', 'server');
 startTsc('./src/client/tsconfig.json', 'client');

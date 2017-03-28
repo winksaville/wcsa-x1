@@ -26,8 +26,10 @@
     "pretest": "yarn _build && yarn _build:spec",
     "test": "yarn _test:full.with.coverage",
     "test:travis": "yarn test",
-    "predev": "tsc -p utils/tsconfig.json",
+    "predev": "yarn _build && tsc -p utils/tsconfig.json",
     "dev": "node build/start-dev.js",
+    "predebug": "yarn _build && tsc -p utils/tsconfig.json",
+    "debug": "DEBUG=server node build/start-dev.js debug",
     "distclean": "rm -rf build/ node_modules/ coverage/ .nyc_output/ *.log"
   },
   "devDependencies": {
@@ -43,6 +45,8 @@
     "webpack": "^2.2.1"
   },
   "dependencies": {
+    "@types/csprng": "^0.1.0",
+    "csprng": "^0.1.2",
     "debug": "^2.6.1",
     "mithril": "^1.0.1",
     "node": "^0.0.0",
