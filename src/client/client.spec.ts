@@ -75,12 +75,17 @@ export class ClientTests {
     debug("testRandOutput:+");
 
     try {
+      // Add data to name and email fields
       let name = await this.driver.findElement(By.id("nameId"));
       await name.sendKeys("test name");
       let email = await this.driver.findElement(By.id("emailId"));
       await email.sendKeys("testname@email.com");
+
+      // Clicke the Send data button
       let button = await this.driver.findElement(By.id("sendDataButtonId"));
       await button.click();
+
+      // Get the contents of name and email fields
       let nameResult = await this.driver.findElement(By.id("nameId"))
         .getAttribute("value");
       Expect(nameResult).toBe("test name");
@@ -89,6 +94,8 @@ export class ClientTests {
         .getAttribute("value");
       Expect(emailResult).toBe("testname@email.com");
       debug(`emailResult=${emailResult}`);
+
+      // Check that the randOutput also had data
       let randOutput = await this.driver.findElement(By.id("randOutputId"))
         .getAttribute("value");
       debug(`randOutput=${randOutput}`);
