@@ -60,7 +60,7 @@ export class ClientTests {
     debug("testWdNop:+");
 
     try {
-      let button = await this.driver.findElement(By.id("invokeNop"));
+      let button = await this.driver.findElement(By.id("invokeNopId"));
       await button.click();
     } catch (e) {
       debug(`testWdNop caught e=${e}`);
@@ -75,11 +75,23 @@ export class ClientTests {
     debug("testRandOutput:+");
 
     try {
-      let button = await this.driver.findElement(By.id("randButton"));
+      let name = await this.driver.findElement(By.id("nameId"));
+      await name.sendKeys("test name");
+      let email = await this.driver.findElement(By.id("emailId"));
+      await email.sendKeys("testname@email.com");
+      let button = await this.driver.findElement(By.id("sendDataButtonId"));
       await button.click();
-      let randOutput = await this.driver.findElement(By.id("rand_output"))
+      let nameResult = await this.driver.findElement(By.id("nameId"))
         .getAttribute("value");
-      debug(`rand_output=${randOutput}`);
+      Expect(nameResult).toBe("test name");
+      debug(`nameResult=${nameResult}`);
+      let emailResult = await this.driver.findElement(By.id("emailId"))
+        .getAttribute("value");
+      Expect(emailResult).toBe("testname@email.com");
+      debug(`emailResult=${emailResult}`);
+      let randOutput = await this.driver.findElement(By.id("randOutputId"))
+        .getAttribute("value");
+      debug(`randOutput=${randOutput}`);
       Expect(randOutput).not.toBeEmpty();
     } catch (e) {
       debug(`testRandOutput caught e=${e}`);

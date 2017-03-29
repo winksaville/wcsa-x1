@@ -23730,6 +23730,20 @@ function invokeNopClicked() {
     nop();
     debug("invokeNopClicked:-");
 }
+function getField(fieldId) {
+    debug(`getField:+ fieldId=${fieldId}`);
+    let result = "";
+    try {
+        let field = document.getElementById(fieldId);
+        result = field.value;
+    }
+    catch (err) {
+        debug(`Caught err getField: ${fieldId} err=${err}`);
+        result = "";
+    }
+    debug(`getField:- fieldId=${fieldId} result=${result}`);
+    return result;
+}
 function setField(fieldId, result) {
     debug(`setField:+ fieldId=${fieldId} result=${result}`);
     try {
@@ -23741,23 +23755,33 @@ function setField(fieldId, result) {
     }
     debug(`setField:- fieldId=${fieldId} result=${result}`);
 }
-function randButtonClicked() {
+function sendDataButtonClicked() {
     let r = csprng(64, 16);
-    setField("rand_output", r);
+    setField("randOutputId", r);
+    debug(`Name:${getField("nameId")}`);
+    debug(`Email:${getField("emailId")}`);
 }
 m.render(document.body, m("div", [
     m("div", "Hello, click to ", [
         m("a", { href: "http://localhost:3000" }, "reload"),
     ]),
     m("div", [
-        m("button", { id: "invokeNop", onclick: invokeNopClicked }, "invoke nop directly"),
+        m("button", { id: "invokeNopId", onclick: invokeNopClicked }, "invoke nop directly"),
     ]),
     m("div", [
-        m("Input", { id: "rand_output", type: "text", readOnly: true, style: "width: 200px;" }),
-        m("br"),
-        m("button", { id: "randButton", onclick: randButtonClicked }, "Generate Rand Number"),
-        m("br"),
-    ])
+        m("div", "Name: ", [
+            m("Input", { id: "nameId", type: "text", style: "width: 200px;" }),
+        ]),
+        m("div", "Email: ", [
+            m("Input", { id: "emailId", type: "text", style: "width: 200px;" }),
+        ]),
+        m("div", "Rand # RO: ", [
+            m("Input", { id: "randOutputId", type: "text", readOnly: true, style: "width: 200px;" }),
+        ]),
+        m("div", [
+            m("button", { id: "sendDataButtonId", onclick: sendDataButtonClicked }, "Send data"),
+        ])
+    ]),
 ]));
 //# sourceMappingURL=client.js.map
 
