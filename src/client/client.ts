@@ -27,13 +27,18 @@ function randButtonClicked() {
 }
 
 m.render(document.body,
-  m("div", "Hello, click to ", [
-    m("a", {href: "http://localhost:3000"}, "reload"),
-    m("br"),
-    m("button", {id: "invokeNop", onclick: invokeNopClicked}, "invoke nop directly"),
-    m("br"),
-    m("Input", {id: "rand_output", type: "text", readOnly: true, style: "width: 200px;"}),
-    m("br"),
-    m("button", {id: "randButton", onclick: randButtonClicked}, "Generate Rand Number"),
+  m("div", [
+    m("div", "Hello, click to ", [
+      m("a", {href: "http://localhost:3000"}, "reload"),
+    ]),
+    m("div", [
+      m("button", {id: "invokeNop", onclick: invokeNopClicked}, "invoke nop directly"),
+    ]),
+    m("div", [
+      m("Input", {id: "rand_output", type: "text", readOnly: true, style: "width: 200px;"}),
+      m("br"),
+      m("button", {id: "randButton", onclick: randButtonClicked}, "Generate Rand Number"),
+      m("br"),
+    ])
   ])
 );
